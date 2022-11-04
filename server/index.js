@@ -4,7 +4,7 @@ const router = require('./routes.js');
 const path = require("path");
 const app = express();
 // declaring PORT
-let PORT = process.env.PORT || 3000;
+let PORT = 3000;
 // add DB
 const db = require('./database/db.js');
 

@@ -1,44 +1,56 @@
 const axios = require('axios');
 
-module.exports = {
-  getProducts: function() {
-    let options = {
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/${process.env.campus}/products`,
-      headers: {
-        'User-Agent': 'request',
-        'Authorization': `${process.env.TOKENS}`
-      }
+
+function getProducts(page, count) {
+  let options = {
+    method: 'GET',
+    url: ``,
+    headers: {
+      'User-Agent': 'request',
+      // 'Authorization': `${process.env.TOKENS}`
     }
-    return axios(options);
-  },
-  getProduct: function(id) {
-    let options = {
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/${process.env.campus}/products/${id}`,
-      headers: {
-        'User-Agent': 'request',
-        'Authorization': `${process.env.TOKENS}`
-      }
-    }
-    return axios(options);
-  },
-  getStyles: function(id) {
-    let options = {
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/${process.env.campus}/products/${id}/styles`,
-      headers: {
-        'User-Agent': 'request',
-        'Authorization': `${process.env.TOKENS}`
-      }
-    }
-    return axios(options);
-  },
-  getRelated: function(id) {
-    let options = {
-      url: `https://app-hrsei-api.herokuapp.com/api/fec2/${process.env.campus}/products/${id}/related`,
-      headers: {
-        'User-Agent': 'request',
-        'Authorization': `${process.env.TOKENS}`
-      }
-    }
-    return axios(options);
   }
+  return axios(options);
 }
+
+function getProduct(id) {
+  let options = {
+    method: 'GET',
+    url: ``,
+    headers: {
+      'User-Agent': 'request',
+      // 'Authorization': `${process.env.TOKENS}`
+    }
+  }
+  return axios(options);
+}
+
+function getStyles(id) {
+  let options = {
+    method: 'GET',
+    url: ``,
+    headers: {
+      'User-Agent': 'request',
+      // 'Authorization': `${process.env.TOKENS}`
+    }
+  }
+  return axios(options);
+}
+
+function getRelated(id) {
+  let options = {
+    method: 'GET',
+    url: ``,
+    headers: {
+      'User-Agent': 'request',
+      // 'Authorization': `${process.env.TOKENS}`
+    }
+  }
+  return axios(options);
+}
+
+
+module.exports.getProducts = getProducts;
+module.exports.getProduct = getProduct;
+module.exports.getStyles = getStyles;
+module.exports.getRelated = getRelated;
