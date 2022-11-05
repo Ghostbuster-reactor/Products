@@ -3,13 +3,15 @@ const db = require('../database/db.js');
 
 
 const getAllP = (req, res) => {
-
   console.log(req.query.count)
+  // declare a page and count
+  let page = req.query.page || 1;
   let count = req.query.count || 5;
-  let query = `SELECT * FROM products LIMIT ${count}`;
+  // set a count LIMIT and an OFFSET for pagination
+  let query = `SELECT * FROM products LIMIT ${count} OFFSET ${count * page - count}`;
   db.query(query, [], (err, response) => {
     if (err) {
-      console.log(err);
+      console.log(err, 'Select proper count/page number (>= 1)');
     } else {
       console.log(response.rows, 'THIS IS getALLP ---');
       res.status(200).json(response.rows);
@@ -53,8 +55,6 @@ const getOne = (req, res) => {
   })
 
 
-
-
   // MODELS SECTION ---
   // let id = req.params.id || {id: '40344'};
   // console.log('get one', req.params);
@@ -72,11 +72,11 @@ const getPStyles = (req, res) => {
 
   let query = `SELECT row_to_json(p)
   from (
-    SELECT id,
+    SELECT id::text AS product_id,
       (
         SELECT array_to_json(array_agg(row_to_json(r)))
         from (
-          SELECT id, name, original_price, sale_price, default_style,
+          SELECT id AS style_id, name, original_price, sale_price, default_style AS "default?",
             (
               SELECT array_to_json(array_agg(row_to_json(p)))
               from (
