@@ -1,9 +1,12 @@
 const {getProducts, getProduct, getStyles, getRelated} = require('../models/products.js')
 const db = require('../database/db.js');
 
+
 const getAllP = (req, res) => {
 
-  let query = `SELECT * FROM products LIMIT 5`;
+  console.log(req.query.count)
+  let count = req.query.count || 5;
+  let query = `SELECT * FROM products LIMIT ${count}`;
   db.query(query, [], (err, response) => {
     if (err) {
       console.log(err);
@@ -83,12 +86,12 @@ const getPStyles = (req, res) => {
               ) p
             ) as photos,
             (
-              SELECT json_build_object(s)
-              from (
-                SELECT size, quantity
-                FROM skus
-                WHERE styleid = styles.id
-              ) s
+              SELECT json_object_agg(skus.id, json_build_object(
+                'quantity', skus.quantity,
+                'size', skus.size
+              ))
+              FROM skus
+              WHERE skus.styleid = styles.id
             ) as skus
           FROM styles
           WHERE productid = products.id
@@ -102,7 +105,7 @@ const getPStyles = (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(response.rows[0].row_to_json, 'THIS IS getOne ---');
+      console.log(response.rows[0].row_to_json, 'THIS IS getPStyles ---');
       res.status(200).json(response.rows[0].row_to_json);
     }
   })
@@ -118,8 +121,24 @@ const getPStyles = (req, res) => {
 
 const getPRelated = (req, res) => {
 
+  console.log(req.params.id);
 
-
+  let query = `SELECT row_to_json(related)
+  from (
+    SELECT array_agg(related_product_id)
+    FROM related
+    WHERE current_product_id = ${req.params.id}
+  ) as related
+  `;
+  db.query(query, [], (err, response) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(response.rows[0].row_to_json.array_agg, 'THIS IS getPRelated ---');
+      console.log(response.rows, 'THIS IS getPRelated ---');
+      res.status(200).json(response.rows[0].row_to_json.array_agg);
+    }
+  })
 
 
   // MODELS SECTION ---
