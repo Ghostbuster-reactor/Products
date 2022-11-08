@@ -2,3 +2,5 @@ node_modules/
 config.js
 .env
 .DS_Store
+images
+k6_testing

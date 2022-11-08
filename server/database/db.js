@@ -53,6 +53,36 @@ db.connectAsync()
       "CREATE TABLE IF NOT EXISTS skus (id serial NOT NULL PRIMARY KEY, styleid INT REFERENCES styles(id), size VARCHAR(500) NOT NULL, quantity INT)"
     )
   )
+  .then(() =>
+    // Expand this table definition as needed: styles indexing -------------------------------------------
+    db.queryAsync(
+      "CREATE INDEX IF NOT EXISTS productid_index ON styles (productid)"
+    )
+  )
+  .then(() =>
+    // Expand this table definition as needed: features indexing ---
+    db.queryAsync(
+      "CREATE INDEX IF NOT EXISTS feature_id_index ON features (product_id)"
+    )
+  )
+  .then(() =>
+    // Expand this table definition as needed: photos indexing ---
+    db.queryAsync(
+      "CREATE INDEX IF NOT EXISTS styleid_index ON photos (styleid)"
+    )
+  )
+  .then(() =>
+    // Expand this table definition as needed: skus indexing ---
+    db.queryAsync(
+      "CREATE INDEX IF NOT EXISTS styleid_skus_index ON skus (styleid)"
+    )
+  )
+  .then(() =>
+    // Expand this table definition as needed: skus indexing ---
+    db.queryAsync(
+      "CREATE INDEX IF NOT EXISTS current_product_index ON related (current_product_id)"
+    )
+  )
   .catch((err) => console.log(err));
 
 
