@@ -17,6 +17,12 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 // request are done here through routes
 app.use('/api', router);
 
+// authentication using loader.io
+app.get('/loaderio-8ee9829f6b415444748bd9f97af289db.html', (req, res) => {
+  res.send('loaderio-8ee9829f6b415444748bd9f97af289db')
+});
+
+
 
 app.listen(PORT);
 console.log(`server listening at http://localhost:${PORT}`);
