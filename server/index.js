@@ -18,8 +18,8 @@ app.use(express.static(path.join(__dirname, "../client/dist")));
 app.use('/api', router);
 
 // authentication using loader.io
-app.get('/loaderio-55535ddbd0bc4e92451c0f9ba6983615.html', (req, res) => {
-  res.send('loaderio-55535ddbd0bc4e92451c0f9ba6983615')
+app.get('/loaderio-0dcf2c50cd732e4fee6a4f5e32c0755e.html', (req, res) => {
+  res.send('loaderio-0dcf2c50cd732e4fee6a4f5e32c0755e')
 });
 
 
