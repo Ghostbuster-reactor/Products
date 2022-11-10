@@ -74,7 +74,7 @@ const getPStyles = (req, res) => {
   from (
     SELECT id::text AS product_id,
       (
-        SELECT array_to_json(array_agg(row_to_json(r)))
+        SELECT COALESCE (array_to_json(array_agg(row_to_json(r))), '[]')
         from (
           SELECT id AS style_id, name, original_price, sale_price, default_style AS "default?",
             (

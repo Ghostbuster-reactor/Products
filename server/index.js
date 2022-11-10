@@ -25,3 +25,7 @@ app.get('/loaderio-9d4d0864d6fa26f0e5af6e19710aae9f.html', (req, res) => {
 
 app.listen(PORT);
 console.log(`server listening at http://localhost:${PORT}`);
+
+
+// COPY products FROM ‘/Users/liuqian/Desktop/CS learning_Hack Reactor /2209 HR immersive course/SDC/SDC-Product-API/data/product.csv’ (format csv, null “null”, DELIMITER ‘,’, HEADER);
+// COALESCE(styles.sale_price, 0) AS sale_price,

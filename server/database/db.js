@@ -3,6 +3,11 @@ const Promise = require("bluebird");
 
 // use .env for this data
 const pool = new Pool({
+  // host: process.env.HOST,
+  // user: process.env.USER,
+  // password: process.env.PASSWORD,
+  // database: process.env.DATABASE,
+  // port: process.env.PORT,
   host: process.env.PGHOST,
   user: process.env.PGUSER,
   password: process.env.PGPASSWORD,
@@ -51,6 +56,18 @@ db.connectAsync()
     // Expand this table definition as needed: SKUS ---
     db.queryAsync(
       "CREATE TABLE IF NOT EXISTS skus (id serial NOT NULL PRIMARY KEY, styleid INT REFERENCES styles(id), size VARCHAR(500) NOT NULL, quantity INT)"
+    )
+  )
+  .then(() =>
+    // Expand this table definition as needed: sets null instead of 'null' for styles ---
+    db.queryAsync(
+      "UPDATE styles SET sale_price = null WHERE sale_price = 'null'"
+    )
+  )
+  .then(() =>
+    // Expand this table definition as needed: sets table column from int to varchar (because dont want to drop table) ---
+    db.queryAsync(
+      "ALTER TABLE styles ALTER COLUMN original_price TYPE VARCHAR (500)"
     )
   )
   .then(() =>
